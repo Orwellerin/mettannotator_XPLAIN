@@ -11,6 +11,10 @@ process DBCAN_GETDB {
     output:
     tuple path("dbcan/", type: "dir"), val("v5-2_9-13-2025"), emit: dbcan_db
 
+    shell:
+"""
+/bin/bash
+"""
 
     script:
 """
@@ -22,7 +26,7 @@ curl -L -s \
 "https://pro.unl.edu/dbCAN2/browse_download.php?path=run_dbCAN_database_total/db_v5-2_9-13-2025" \
 | grep -oP 'download_file.php\?file=[^"]+' \
 | while read file; do
-wget -P dbcan --content-disposition "https://pro.unl.edu/dbCAN2/$file"
+wget -P dbcan --content-disposition "https://pro.unl.edu/dbCAN2/\$file"
 done
 
 if [ -f "dbcan/dbCAN_sub.hmm" ]; then
