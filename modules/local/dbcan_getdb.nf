@@ -14,17 +14,21 @@ process DBCAN_GETDB {
 
     script:
     """
-    wget -r -np -nH --cut-dirs=3 --reject "index.html*" https://bcb.unl.edu/dbCAN2/download/run_dbCAN_database_total/db_v5-2_9-13-2025/
+ set -euo pipefail
 
-    mv db_v5-2_9-13-2025 dbcan/
+mkdir -p dbcan
+    curl -L -s \
+"https://pro.unl.edu/dbCAN2/browse_download.php?path=run_dbCAN_database_total/db_v5-2_9-13-2025" \
+| grep -oP 'download_file.php\?file=[^"]+' \
+| while read file; do
+wget -P dbcan --content-disposition "https://pro.unl.edu/dbCAN2/$file"
+done
 
-    # there is a mismatch between the expected name of the sub db and the way it is named in the database
-    # the code below is a temporary fix for this until it is properly addressed by the tool developers
-    if [ -f "dbcan/dbCAN_sub.hmm" ]; then
-        mv "dbcan/dbCAN_sub.hmm" "dbcan/dbCAN-sub.hmm"
-    fi
+if [ -f "dbcan/dbCAN_sub.hmm" ]; then
+mv "dbcan/dbCAN_sub.hmm" "dbcan/dbCAN-sub.hmm"
+fi
 
-    echo 'v5-2_9-13-2025' > dbcan/VERSION.txt
+echo 'v5-2_9-13-2025' > dbcan/VERSION.txt
 
     """
 }
