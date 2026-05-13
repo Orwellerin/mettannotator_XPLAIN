@@ -14,6 +14,7 @@ process PSEUDOFINDER {
 
     script:
     """
+    diamond makedb --in ${pseudofinder_db}/uniprot_sprot.fasta -d ${pseudofinder_db}/uniprot_sprot.fasta 
     pseudofinder.py annotate \
     -g ${compliant_gbk} \
     -db ${pseudofinder_db}/uniprot_sprot.fasta.dmnd \
