@@ -14,7 +14,7 @@ process PSEUDOFINDER {
 
     script:
     """
-    if [ ! -d "${pseudofinder_db}/uniprot_sprot.fasta.dmnd" ]; then
+    if [ ! -f "${pseudofinder_db}/uniprot_sprot.fasta.dmnd" ]; then
     diamond makedb --in ${pseudofinder_db}/uniprot_sprot.fasta -d ${pseudofinder_db}/uniprot_sprot.fasta 
     fi
     pseudofinder.py annotate \
