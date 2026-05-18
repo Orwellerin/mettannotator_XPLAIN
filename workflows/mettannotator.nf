@@ -55,7 +55,7 @@ include { DBCAN                                      } from '../modules/local/db
 include { CIRCOS_PLOT                                } from '../modules/local/circos_plot'
 include { PSEUDOFINDER                               } from '../modules/local/pseudofinder'
 include { PSEUDOFINDER_POSTPROCESSING                } from '../modules/local/pseudofinder'
-
+include { ANNOTALE } from '../modules/local/annotale'
 include { DOWNLOAD_DATABASES                         } from '../subworkflows/download_databases'
 
 /*
@@ -98,6 +98,9 @@ eggnog_data = channel.empty()
 rfam_ncrna_models = channel.empty()
 
 pseudofinder_db = channel.empty()
+
+annotale_jar = file("${projectDir}/assets/AnnoTALEcli-1.5.jar")
+annotale_xml = file("${projectDir}/assets/Class_builder_download.xml")
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -199,6 +202,7 @@ workflow METTANNOTATOR {
     annotations_gff = channel.empty()
     compliant_gbk = channel.empty()
     compliant_gff = channel.empty()
+
 
     LOOKUP_KINGDOM( assemblies )
     ch_versions = ch_versions.mix(LOOKUP_KINGDOM.out.versions.first())
@@ -306,6 +310,16 @@ workflow METTANNOTATOR {
     CRISPRCAS_FINDER( assemblies )
 
     ch_versions = ch_versions.mix(CRISPRCAS_FINDER.out.versions.first())
+
+//
+ANNOTALE(
+    assemblies.map { meta, fasta, kingdom -> tuple(meta, fasta) },
+    annotale_jar,
+    annotale_xml
+)
+
+ch_versions = ch_versions.mix(ANNOTALE.out.versions.first())
+
 
     // EGGNOG_MAPPER_ORTHOLOGS - needs a third empty file in mode=mapper
     proteins_for_emapper_orth = annotations_faa.map { it -> tuple( it[0], file(it[1]), file("NO_FILE") ) }
