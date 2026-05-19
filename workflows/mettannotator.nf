@@ -311,13 +311,11 @@ workflow METTANNOTATOR {
 
     ch_versions = ch_versions.mix(CRISPRCAS_FINDER.out.versions.first())
 
-//
-ANNOTALE(
-    assemblies.map { meta, fasta, kingdom -> tuple(meta, fasta) },
-    annotale_jar,
-    annotale_xml
-)
-
+    ANNOTALE(
+        assemblies.map { meta, fasta -> tuple(meta, fasta) },
+             annotale_jar,
+             annotale_xml
+    )
 ch_versions = ch_versions.mix(ANNOTALE.out.versions.first())
 
 
