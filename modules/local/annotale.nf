@@ -18,6 +18,7 @@ process ANNOTALE {
     def prefix = meta.id ?: meta.sample ?: "sample"
 
     """
+    java -jar AnnoTALEcli-1.5.jar predict -h
     set -euo pipefail
 
     OUTDIR="${prefix}.annotale"
