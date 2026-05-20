@@ -1,6 +1,6 @@
 process ANNOTALE {
 
-    tag "${meta.prefix}"
+    tag "${meta.prefix ?: 'sample'}"
     label 'process_medium'
 
     container = 'docker://eclipse-temurin:17-jre-jammy'
