@@ -3,7 +3,7 @@ process ANNOTALE {
     tag { meta.id ?: meta.sample ?: "sample" }
     label 'process_medium'
 
-    container 'eclipse-temurin:17-jre'
+    container = 'docker://eclipse-temurin:17-jre-jammy'
 
     input:
     tuple val(meta), path(fasta)
