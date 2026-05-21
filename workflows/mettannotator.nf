@@ -56,6 +56,7 @@ include { CIRCOS_PLOT                                } from '../modules/local/ci
 include { PSEUDOFINDER                               } from '../modules/local/pseudofinder'
 include { PSEUDOFINDER_POSTPROCESSING                } from '../modules/local/pseudofinder'
 include { ANNOTALE } from '../modules/local/annotale'
+include {GENOMAD_GETDB} from '../modules/local/genomad_getdb'
 include { DOWNLOAD_DATABASES                         } from '../subworkflows/download_databases'
 
 /*
@@ -98,6 +99,7 @@ eggnog_data = channel.empty()
 rfam_ncrna_models = channel.empty()
 
 pseudofinder_db = channel.empty()
+genomad_db= channel.empty()
 
 annotale_jar = file("${projectDir}/assets/AnnoTALEcli-1.5.jar")
 annotale_xml = file("${projectDir}/assets/Class_builder_download.xml")
@@ -183,6 +185,11 @@ workflow METTANNOTATOR {
         pseudofinder_db = tuple(
             file(params.pseudofinder_db, checkIfExists: true),
             params.pseudofinder_db_version
+        )
+
+        genomad_db = tuple(
+            file(params.genomad_db, checkIfExists: true),
+            params.genomad_db_version
         )
 
         if (params.bakta) {
@@ -312,9 +319,9 @@ workflow METTANNOTATOR {
     ch_versions = ch_versions.mix(CRISPRCAS_FINDER.out.versions.first())
 
     ANNOTALE(
-        assemblies.map { meta, fasta -> tuple(meta, fasta) },
-             annotale_jar,
-             annotale_xml
+        annotations_fna,
+        annotale_jar,
+        annotale_xml
     )
 ch_versions = ch_versions.mix(ANNOTALE.out.versions.first())
 
