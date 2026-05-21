@@ -16,7 +16,6 @@ process ANNOTALE {
 
     script:
     """
-    java -jar AnnoTALEcli-1.5.jar predict -h
     set -euo pipefail
 
     OUTDIR="${meta.prefix}.annotale"
