@@ -317,7 +317,8 @@ workflow METTANNOTATOR {
     CRISPRCAS_FINDER( assemblies )
 
     ch_versions = ch_versions.mix(CRISPRCAS_FINDER.out.versions.first())
-
+    
+    annotations_for_annotale = annotations_fna.join(annotations_faa)
     ANNOTALE(
         annotations_fna,
         annotale_jar,

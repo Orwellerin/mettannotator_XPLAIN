@@ -3,15 +3,17 @@ process ANNOTALE {
     tag "${meta.prefix}"
     label 'process_medium'
 
-    container = 'docker://eclipse-temurin:17-jre-jammy'
+    container 'docker://eclipse-temurin:17-jre-jammy'
+
+    publishDir "${params.outdir}/annotale", mode: 'copy'
 
     input:
-    tuple val(meta), path(fna)
+    tuple val(meta), path(fna), path(faa)
     path jar
     path class_xml
 
     output:
-    tuple val(meta), path ("${meta.prefix}.annotale"), emit: results
+    tuple val(meta), path("${meta.prefix}.annotale"), emit: results
     path "versions.yml", emit: versions
 
     script:
