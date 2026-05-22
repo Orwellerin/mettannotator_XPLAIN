@@ -1,7 +1,7 @@
 process GENOMAD_GETDB {
 
     tag "GENOMAD DB version 1.11.0"
-    container "docker://staphb/genomad0"
+    container "docker://staphb/genomad"
 
     publishDir "${params.dbs}/genomad_db", mode: 'copy', overwrite: true
 

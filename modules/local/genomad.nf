@@ -3,7 +3,7 @@ process GENOMAD {
     tag "${meta.prefix}"
     label 'process_medium'
 
-    container "docker://staphb/genomad0"
+    container "docker://staphb/genomad"
 
     input:
     tuple val(meta), path(fna)
