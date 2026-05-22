@@ -8,10 +8,9 @@ process ANNOTALE {
     publishDir "${params.outdir}/annotale", mode: 'copy'
 
     input:
-    tuple val(meta), path(fna), path(faa)
+    tuple val(meta), path(fna)
     path jar
     path class_xml
-
     output:
     tuple val(meta), path("${meta.prefix}.annotale"), emit: results
     path "versions.yml", emit: versions

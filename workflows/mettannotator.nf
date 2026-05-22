@@ -318,9 +318,9 @@ workflow METTANNOTATOR {
 
     ch_versions = ch_versions.mix(CRISPRCAS_FINDER.out.versions.first())
     
-    annotations_for_annotale = annotations_fna.join(annotations_faa)
+    annotations_for_annotale = annotations_fna
     ANNOTALE(
-        annotations_fna,
+        annotations_for_annotale,
         annotale_jar,
         annotale_xml
     )
