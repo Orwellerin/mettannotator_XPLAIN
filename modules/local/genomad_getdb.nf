@@ -1,7 +1,7 @@
 process GENOMAD_GETDB {
 
-    tag "GENOMAD DB version 1.9.0"
-    container "https://depot.galaxyproject.org/singularity/genomad:1.9.0--pyhdfd78af_1"
+    tag "GENOMAD DB version 1.11.0"
+    container "docker://antoniopcamargo/genomad:1.11.0"
 
     publishDir "${params.dbs}/genomad_db", mode: 'copy', overwrite: true
 
@@ -16,6 +16,6 @@ process GENOMAD_GETDB {
 
     genomad download-database genomad_db
 
-    echo "genomad-db\t1.9.0" > genomad_db/VERSION.txt
+    echo "genomad-db\t1.11.0" > genomad_db/VERSION.txt
     """
 }

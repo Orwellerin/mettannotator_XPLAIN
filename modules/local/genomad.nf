@@ -3,7 +3,7 @@ process GENOMAD {
     tag "${meta.prefix}"
     label 'process_medium'
 
-    container "https://depot.galaxyproject.org/singularity/genomad:1.9.0--pyhdfd78af_1"
+    container "docker://antoniopcamargo/genomad:1.11.0"
 
     input:
     tuple val(meta), path(fna)
@@ -22,6 +22,6 @@ process GENOMAD {
         genomad_out \
         "${db}"
 
-    echo "genomad\t1.9.0" > versions.yml
+    echo "genomad\t1.11.0" > versions.yml
     """
 }
