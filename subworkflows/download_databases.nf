@@ -73,7 +73,7 @@ workflow DOWNLOAD_DATABASES {
             )
         } else {
             GENOMAD_GETDB()
-            genomad_db = GENOMAD_GETDB.out.genomad_db
+            genomad_db = GENOMAD_GETDB.out.genomad_db.first()
         }
 
         if (defense_finder_dir.exists()) {
