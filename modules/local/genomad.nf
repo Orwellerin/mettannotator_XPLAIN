@@ -3,9 +3,7 @@ process GENOMAD {
     tag "${meta.prefix}"
     label 'process_medium'
 
-    container "${ workflow.containerEngine in ['singularity', 'apptainer'] ?
-                'https://depot.galaxyproject.org/singularity/genomad%3A1.9.0--pyhdfd78af_1' :
-                'singularity/genomad%3A1.9.0--pyhdfd78af_1' }"
+    container "https://depot.galaxyproject.org/singularity/genomad:1.9.0--pyhdfd78af_1"
 
     input:
     tuple val(meta), path(fna)
