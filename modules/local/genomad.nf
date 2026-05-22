@@ -10,7 +10,7 @@ process GENOMAD {
     tuple path(db), val(db_version)
 
     output:
-    tuple val(meta), path("${meta.prefix}"), emit: results
+    tuple val(meta), path("${meta.prefix}/**"), emit: results
     path "versions.yml", emit: versions
 
     script:
@@ -19,7 +19,9 @@ process GENOMAD {
 
     genomad end-to-end \
         "${fna}" \
-        "${meta.prefix}" \
+        genomad_out \
         "${db}"
+
+    echo "genomad\t1.11.0" > versions.yml
     """
 }

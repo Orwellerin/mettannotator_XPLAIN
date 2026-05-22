@@ -57,6 +57,7 @@ include { PSEUDOFINDER                               } from '../modules/local/ps
 include { PSEUDOFINDER_POSTPROCESSING                } from '../modules/local/pseudofinder'
 include { ANNOTALE } from '../modules/local/annotale'
 include {GENOMAD_GETDB} from '../modules/local/genomad_getdb'
+include { GENOMAD } from '../modules/local/genomad'
 include { DOWNLOAD_DATABASES                         } from '../subworkflows/download_databases'
 
 /*

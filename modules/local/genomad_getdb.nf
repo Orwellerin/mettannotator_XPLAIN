@@ -2,7 +2,7 @@ process GENOMAD_GETDB {
 
     tag "GENOMAD DB version 1.11.0"
     container "antoniopcamargo/genomad:1.11.0"
-    publishDir "${params.dbs}/genomad", mode: 'copy'
+    publishDir "${params.dbs}/genomad_db", mode: 'copy', overwrite: true
 
     output:
     tuple path("genomad_db"), val("1.11.0"), emit: genomad_db
@@ -12,8 +12,9 @@ process GENOMAD_GETDB {
     set -euo pipefail
 
     mkdir -p genomad_db
+
     genomad download-database genomad_db
 
-    echo "1.11.0" > genomad_db/VERSION.txt
+    echo "genomad-db\t1.11.0" > genomad_db/VERSION.txt
     """
 }

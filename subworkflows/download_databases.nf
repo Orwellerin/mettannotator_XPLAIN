@@ -41,7 +41,7 @@ workflow DOWNLOAD_DATABASES {
         rfam_ncrna_models = file("$params.dbs/rfam_models/rfam_ncrna_cms")
         bakta_dir = file("$params.dbs/bakta")
         pseudofinder_dir = file("$params.dbs/uniprot_sprot")
-        genomad_dir = file("$params.dbs/genomad")
+        genomad_dir = file("$params.dbs/genomad_db")
 
         if (amrfinder_plus_dir.exists()) {
             amrfinder_plus_db = tuple(
@@ -73,7 +73,7 @@ workflow DOWNLOAD_DATABASES {
             )
         } else {
             GENOMAD_GETDB()
-            genomad_db = GENOMAD_GETDB.out.genomad_db.first()
+            genomad_db = GENOMAD_GETDB.out.genomad_db
         }
 
         if (defense_finder_dir.exists()) {
