@@ -136,6 +136,7 @@ workflow METTANNOTATOR {
         rfam_ncrna_models = DOWNLOAD_DATABASES.out.rfam_ncrna_models
 
         pseudofinder_db = DOWNLOAD_DATABASES.out.pseudofinder_db
+        genomad_db = DOWNLOAD_DATABASES.out.genomad_db
 
         if (params.bakta) {
             bakta_db = DOWNLOAD_DATABASES.out.bakta_db
@@ -317,15 +318,19 @@ workflow METTANNOTATOR {
     CRISPRCAS_FINDER( assemblies )
 
     ch_versions = ch_versions.mix(CRISPRCAS_FINDER.out.versions.first())
-    
+
     annotations_for_annotale = annotations_fna.filter { it != null }.map { meta, fna -> tuple(meta, fna) }
     ANNOTALE(
         annotations_for_annotale,
         annotale_jar,
         annotale_xml
     )
-ch_versions = ch_versions.mix(ANNOTALE.out.versions.first())
-
+    ch_versions = ch_versions.mix(ANNOTALE.out.versions.first())
+    GENOMAD(
+        annotations_fna,
+        genomad_db
+    )
+    ch_versions = ch_versions.mix(GENOMAD.out.versions.first())
 
     // EGGNOG_MAPPER_ORTHOLOGS - needs a third empty file in mode=mapper
     proteins_for_emapper_orth = annotations_faa.map { it -> tuple( it[0], file(it[1]), file("NO_FILE") ) }

@@ -1,9 +1,25 @@
 process GENOMAD {
+
     tag "${meta.prefix}"
-    container "${ workflow.containerEngine in ['singularity', 'apptainer'] ?
-        'https://depot.galaxyproject.org/singularity/genomad%3A1.9.0--pyhdfd78af_1' :
-        'genomad%3A1.9.0--pyhdfd78af_1'}"
-    input :
-    tuple val(meta), path(fna), path(gff)
-    tuple path(genomad_getdb, stageAs: "genomad_getdb"), val(db_version)
-}    
+    label 'process_medium'
+
+    container "antoniopcamargo/genomad:1.11.0"
+
+    input:
+    tuple val(meta), path(fna)
+    tuple path(db), val(db_version)
+
+    output:
+    tuple val(meta), path("${meta.prefix}"), emit: results
+    path "versions.yml", emit: versions
+
+    script:
+    """
+    set -euo pipefail
+
+    genomad end-to-end \
+        "${fna}" \
+        "${meta.prefix}" \
+        "${db}"
+    """
+}
