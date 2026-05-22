@@ -22,6 +22,6 @@ process GENOMAD {
         genomad_out \
         "${db}"
 
-    echo "genomad\t1.11.0" > versions.yml
+    echo "genomad\t1.9.0" > versions.yml
     """
 }
