@@ -1,7 +1,10 @@
 process GENOMAD_GETDB {
 
     tag "GENOMAD DB version 1.11.0"
-    container "docker.io/antoniopcamargo/genomad:1.11.0"
+    container "${ workflow.containerEngine in ['singularity', 'apptainer'] ?
+            'https://depot.galaxyproject.org/singularity/genomad%3A1.9.0--pyhdfd78af_1' :
+            'singularity/genomad%3A1.9.0--pyhdfd78af_1' }"
+
     publishDir "${params.dbs}/genomad_db", mode: 'copy', overwrite: true
 
     output:
